@@ -7,19 +7,39 @@
     <div class="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-indigo-600/30 rounded-full blur-[140px]"></div>
   </div>
 
-  <header class="py-10 text-center relative z-10">
-    <h1 class="text-6xl font-bold text-white tracking-tight leading-[1.1] drop-shadow-lg select-none font-inter">
+  <!-- Header -->
+  <header class="py-10 px-8 flex items-center justify-between text-center relative z-10">
+
+    <!-- Botón Home -->
+    <a routerLink=""
+      class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl shadow-md transition-all duration-200 hover:scale-105">
+      <!-- ícono de casa -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+        <path
+          d="M11.47 2.47a.75.75 0 0 1 1.06 0l9 9a.75.75 0 0 1-1.06 1.06L20 11.06V21a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-4.5H10v4.5a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 4 21v-9.94l-.47.47a.75.75 0 1 1-1.06-1.06l9-9z" />
+      </svg>
+      <span class="hidden sm:inline font-medium">Inicio</span>
+    </a>
+
+    <!-- Título -->
+    <h1
+      class="text-4xl sm:text-6xl font-bold text-white tracking-tight leading-[1.1] drop-shadow-lg select-none font-inter mx-auto">
       <a routerLink="">Managment Stock App</a>
     </h1>
+
+    <!-- Espaciador invisible para centrar título -->
+    <div class="w-[120px] sm:w-[140px]"></div>
   </header>
 
+  <!-- Contenido principal -->
   <main class="flex-1 flex items-center justify-center px-6 relative z-10">
     <router-outlet></router-outlet>
   </main>
 
+  <!-- Footer -->
   <footer
     class="py-8 text-center border-t border-white/10 text-white text-lg font-semibold relative z-10 tracking-wide">
-    Management Application, podes contactarte conmigo en ➡️&copy;<a routerLink="/contact"
-      class="text-indigo-300 hover:text-indigo-200 transition-colors font-inter">contact</a>
+    Management Application, podes contactarte conmigo en ➡️ &copy;
+    <a routerLink="/contact" class="text-indigo-300 hover:text-indigo-200 transition-colors font-inter">contact</a>
   </footer>
 </div>
