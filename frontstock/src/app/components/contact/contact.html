@@ -6,12 +6,16 @@
 
     <!-- Texto resumen -->
     <h1 class="text-3xl font-bold mb-2">¡Hola! Soy Marcos Aguirre</h1>
-    <p class="text-center text-gray-300 max-w-xl mb-6">
+    <p class="text-center text-gray-300 max-w-xl mb-10">
         Soy desarrollador web full stack apasionado por crear soluciones simples, limpias y funcionales.
         Me gusta trabajar con Angular, Node.js y MongoDB.
     </p>
 
     <!-- Redes -->
+
+    <div class="text-center max-w-md">
+        <h4 class="text-2xl font-semibold mb-2">Redes sociales</h4>
+    </div>
     <div class="flex space-x-6 mb-8">
         <a href="https://www.linkedin.com/in/marcos-aguirre-b77a25255/" target="_blank"
             class="hover:text-indigo-400 transition">
@@ -33,25 +37,57 @@
     <div class="text-center max-w-md mb-6">
         <h2 class="text-2xl font-semibold mb-2">¿Querés ponerte en contacto?</h2>
         <p class="text-gray-300">
-            Completá el formulario y me voy a contactar con vos lo antes posible.
+            Completá el formulario y me voy a contactar con vos lo antes posible 👇.
         </p>
     </div>
 
     <!-- Formulario -->
-    <form class="w-full max-w-md bg-gray-800 p-6 rounded-2xl shadow-lg space-y-4">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()"
+        class="w-full max-w-md md:max-w-lg lg:max-w-xl bg-gray-800 p-6 rounded-2xl shadow-lg space-y-4" novalidate>
 
-        <input type="text" placeholder="Tu nombre"
-            class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-100" />
+        <!-- Campo: Nombre -->
+        <div>
+            <input type="text" formControlName="name" placeholder="Tu nombre"
+                class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-100" />
+            <p *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
+                class="text-sm text-red-400 mt-1">
+                Por favor, ingresá tu nombre.
+            </p>
+        </div>
 
-        <input type="email" placeholder="Tu email"
-            class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-100" />
+        <!-- Campo: Email -->
+        <div>
+            <input type="email" formControlName="email" placeholder="Tu email"
+                class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-100" />
+            <p *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+                class="text-sm text-red-400 mt-1">
+                Ingresá un email válido.
+            </p>
+        </div>
 
-        <textarea placeholder="Tu mensaje" rows="4"
-            class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-100"></textarea>
+        <!-- Campo: Mensaje -->
+        <div>
+            <textarea formControlName="message" placeholder="Tu mensaje" rows="4"
+                class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-100 resize-none"></textarea>
+            <p *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+                class="text-sm text-red-400 mt-1">
+                El mensaje no puede estar vacío.
+            </p>
+        </div>
 
-        <button type="submit"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition">
-            Enviar mensaje
+        <!-- Botón -->
+        <button type="submit" [disabled]="contactForm.invalid || cargando"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+            {{ cargando ? 'Enviando...' : 'Enviar mensaje' }}
         </button>
     </form>
+
+    <!-- Mensaje de éxito o error -->
+    <p *ngIf="mensaje" class="text-center mt-4 text-sm" [ngClass]="{
+    'text-green-400': enviado,
+    'text-red-400': !enviado
+  }">
+        {{ mensaje }}
+    </p>
+
 </div>
