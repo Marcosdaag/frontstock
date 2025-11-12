@@ -1,2 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "tailwindcss";
+
+/* 1. Estilos aplicados al elemento HTML principal para el scroll de la página */
+html::-webkit-scrollbar {
+    /* Aumentamos el ancho a 12px para que sea más gruesa */
+    width: 12px; 
+}
+
+/* 2. Estilizar el "carril" (Track) */
+html::-webkit-scrollbar-track {
+    /* Fondo oscuro: bg-gray-800 (#1f2937), acorde al fondo general de la app */
+    background: #1f2937; 
+}
+
+/* 3. Estilizar el "pulgar" (Thumb) */
+html::-webkit-scrollbar-thumb {
+    /* Color del pulgar: bg-gray-600 (#4b5563), un poco más oscuro que el anterior (gray-500) 
+       para mayor contraste con el track, pero aún dentro de tu paleta gris. */
+    background-color: #4b5563; 
+    
+    /* Bordes redondeados */
+    border-radius: 20px; 
+    
+    /* Borde del mismo color que el track (bg-gray-800) */
+    border: 3px solid #1f2937; 
+}
+
+/* Fallback para el body (si aplica) */
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+    border-radius: 20px;
+    border: 3px solid #1f2937;
+}
