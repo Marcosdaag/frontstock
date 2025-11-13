@@ -9,7 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class Login {
   //Variables para el login
-  user = '';
+  username = '';
   password = '';
 
   // 1. Variable para rastrear si la contraseña es visible (por defecto, es falsa/oculta)
@@ -18,7 +18,7 @@ export class Login {
   constructor(private auth: AuthService) { }
 
   onSubmit() {
-    this.auth.login(this.user, this.password).subscribe({
+    this.auth.login(this.username, this.password).subscribe({
       next: () => console.log('Login correcto'),
       error: err => alert('Error al iniciar sesión: ' + err.error.message)
     });

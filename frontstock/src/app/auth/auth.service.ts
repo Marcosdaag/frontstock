@@ -6,12 +6,12 @@ import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private apiUrl = 'https://stockapi-2t3a.onrender.com/login'; // ajustá según tu API
+    private apiUrl = 'https://stockapi-2t3a.onrender.com/login';
 
     constructor(private http: HttpClient, private router: Router) { }
 
-    login(user: string, password: string) {
-        return this.http.post<{ authorization: string }>(this.apiUrl, { user, password }).pipe(tap(response => {
+    login(username: string, password: string) {
+        return this.http.post<{ authorization: string }>(this.apiUrl, { username, password }).pipe(tap(response => {
             localStorage.setItem('token', response.authorization);
             this.router.navigate(['/managment']);
         })
