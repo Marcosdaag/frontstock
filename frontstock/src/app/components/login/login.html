@@ -4,14 +4,14 @@
             Iniciar Sesión 🚀
         </h2>
 
-        <form>
+        <form (ngSubmit)="onSubmit()">
             <div class="mb-4">
                 <label for="user" class="block text-gray-300 text-sm font-bold mb-2">
                     👤 Usuario:
                 </label>
                 <input type="text" id="user" name="user"
                     class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                    placeholder="usuario_1234" required />
+                    placeholder="usuario_1234" [(ngModel)]="user" required />
             </div>
 
             <div class="mb-6">
@@ -22,7 +22,7 @@
                 <div class="relative">
                     <input [type]="passwordVisible ? 'text' : 'password'" id="password" name="password"
                         class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white placeholder-gray-400 pr-10"
-                        placeholder="••••••••" required />
+                        placeholder="••••••••" [(ngModel)]="password" required />
 
                     <button type="button" (click)="togglePasswordVisibility()"
                         class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white focus:outline-none"

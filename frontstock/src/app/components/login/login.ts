@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,10 +8,21 @@ import { Component } from '@angular/core';
   styleUrl: './login.css',
 })
 export class Login {
+  //Variables para el login
+  user = '';
+  password = '';
+
   // 1. Variable para rastrear si la contraseña es visible (por defecto, es falsa/oculta)
   public passwordVisible: boolean = false;
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
+
+  onSubmit() {
+    this.auth.login(this.user, this.password).subscribe({
+      next: () => console.log('Login correcto'),
+      error: err => alert('Error al iniciar sesión: ' + err.error.message)
+    });
+  }
 
   /**
    * Método para alternar la visibilidad de la contraseña.
@@ -19,4 +31,5 @@ export class Login {
     // Simplemente invierte el valor actual de la variable
     this.passwordVisible = !this.passwordVisible;
   }
+
 }
