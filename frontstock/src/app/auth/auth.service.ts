@@ -10,12 +10,20 @@ export class AuthService {
 
     constructor(private http: HttpClient, private router: Router) { }
 
+    // En auth.service.ts
+
     login(username: string, password: string) {
-        return this.http.post<{ authorization: string }>(this.apiUrl, { username, password }).pipe(tap(response => {
-            localStorage.setItem('token', response.authorization);
-            this.router.navigate(['/managment']);
-        })
-        );
+        return this.http.post<{ token: string }>(this.apiUrl, { username, password })
+            .pipe(
+                tap(response => {
+                    if (response && response.token) {
+                        this.router.navigate(['/managment']);
+                    } else {
+                        console.error('La API dio OK pero no mandó el token.');
+                        throw new Error('Respuesta del servidor no válida.');
+                    }
+                })
+            );
     }
 
     logout() {

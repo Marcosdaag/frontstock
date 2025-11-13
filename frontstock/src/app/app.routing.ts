@@ -17,9 +17,10 @@ const appRoutes: Routes = [
         component: Managment,
         canActivate: [AuthGuard],
         children: [
-            { path: 'products', loadComponent: () => import('./components/products/products').then(m => m.Products) },
-            { path: 'orders', loadComponent: () => import('./components/orders/orders').then(m => m.Orders) },
-        ]
+            { path: 'products', component: Products },
+            { path: 'orders', component: Orders },
+            { path: '', redirectTo: 'products', pathMatch: 'full' }
+        ],
     },
     { path: 'contact', component: Contact },
     { path: '**', component: Login }
