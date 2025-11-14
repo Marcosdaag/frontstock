@@ -9,9 +9,10 @@ import { Orders } from './components/orders/orders';
 import { Contact } from './components/contact/contact';
 import { Managment } from "./components/managment/managment";
 import { AuthGuard } from './auth/auth.guard';
+import { LoginGuard } from "./guards/login.guard";
 
 const appRoutes: Routes = [
-    { path: '', component: Login },
+    { path: '', component: Login, canActivate: [LoginGuard] },
     {
         path: 'managment',
         component: Managment,
