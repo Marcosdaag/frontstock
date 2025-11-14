@@ -17,6 +17,7 @@ export class AuthService {
             .pipe(
                 tap(response => {
                     if (response && response.token) {
+                        localStorage.setItem('token', response.token);
                         this.router.navigate(['/managment']);
                     } else {
                         console.error('La API dio OK pero no mandó el token.');
