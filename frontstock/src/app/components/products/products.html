@@ -1,1 +1,165 @@
-<p>products works!</p>
+<div class="min-h-screen bg-slate-900 p-4 md:p-8 text-slate-200 relative">
+
+    <h1 class="text-3xl font-bold mb-8 text-white border-b border-slate-700 pb-4">
+        📦 Gestión de Productos
+    </h1>
+
+    <div class="bg-slate-800 p-6 rounded-xl shadow-lg mb-8 border border-slate-700">
+        <h2 class="text-xl font-semibold text-blue-400 mb-4 flex items-center gap-2">
+            <span>✨</span> Agregar Nuevo Producto
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+
+            <div>
+                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Marca <span
+                        class="text-red-500">*</span></label>
+                <input type="text" [(ngModel)]="newProduct.brand" placeholder="Ej: Aguila" required
+                    class="w-full bg-slate-900 text-white border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+            </div>
+
+            <div>
+                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Nombre <span
+                        class="text-red-500">*</span></label>
+                <input type="text" [(ngModel)]="newProduct.name" placeholder="Ej: Alfajor triple" required
+                    class="w-full bg-slate-900 text-white border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+            </div>
+
+            <div>
+                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Stock</label>
+                <input type="number" [(ngModel)]="newProduct.stock" min="0"
+                    class="w-full bg-slate-900 text-white border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+            </div>
+
+            <div>
+                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Precio ($)</label>
+                <input type="number" [(ngModel)]="newProduct.price" min="0"
+                    class="w-full bg-slate-900 text-white border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+            </div>
+
+            <button (click)="saveNewProduct()" [disabled]="!newProduct.brand || !newProduct.name" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-lg shadow-lg transition-all duration-200 flex justify-center items-center gap-2 h-[46px] 
+                     disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-slate-600">
+                <span>+</span> Guardar
+            </button>
+        </div>
+    </div>
+
+    <div class="mb-6 relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-slate-500 text-lg">🔍</span>
+        </div>
+
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Buscar por nombre o marca..."
+            class="w-full bg-slate-800 text-white border border-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-10 p-3 placeholder-slate-500 shadow-md outline-none transition-all">
+
+        <button *ngIf="searchTerm" (click)="searchTerm = ''; onSearch()"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-white cursor-pointer">
+            ✖
+        </button>
+    </div>
+
+    <div
+        class="bg-transparent md:bg-slate-800 md:rounded-xl md:shadow-lg md:border md:border-slate-700 overflow-hidden pb-20">
+
+        <div class="md:hidden space-y-4">
+            <div *ngFor="let product of products"
+                class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-sm relative">
+
+                <div class="mb-4 border-b border-slate-700/50 pb-3">
+                    <input [(ngModel)]="product.brand"
+                        class="block w-full bg-transparent text-xs font-bold uppercase text-blue-400 mb-1 outline-none placeholder-slate-600"
+                        placeholder="Marca">
+                    <input [(ngModel)]="product.name"
+                        class="block w-full bg-transparent text-lg font-bold text-white outline-none placeholder-slate-600"
+                        placeholder="Nombre del producto">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="text-xs text-slate-500 uppercase font-bold mb-1 block">Stock</label>
+                        <input type="number" [(ngModel)]="product.stock"
+                            class="w-full bg-slate-900 text-white font-bold border border-slate-600 rounded p-3 focus:border-blue-500 outline-none text-center text-lg">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-500 uppercase font-bold mb-1 block">Precio</label>
+                        <input type="number" [(ngModel)]="product.price"
+                            class="w-full bg-slate-900 text-emerald-400 font-bold border border-slate-600 rounded p-3 focus:border-emerald-500 outline-none text-center text-lg">
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button (click)="updateProduct(product)"
+                        class="flex-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-600/30 py-2 rounded-lg flex items-center justify-center gap-2 font-semibold transition-all">
+                        💾 Guardar
+                    </button>
+                    <button (click)="deleteProduct(product._id)"
+                        class="flex-1 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 border border-rose-600/30 py-2 rounded-lg flex items-center justify-center gap-2 font-semibold transition-all">
+                        🗑️ Borrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="hidden md:block overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-slate-950 text-slate-400 uppercase text-xs font-bold tracking-wider">
+                    <tr>
+                        <th class="p-4 border-b border-slate-700">Marca</th>
+                        <th class="p-4 border-b border-slate-700">Nombre</th>
+                        <th class="p-4 border-b border-slate-700 w-32">Stock</th>
+                        <th class="p-4 border-b border-slate-700 w-32">Precio ($)</th>
+                        <th class="p-4 border-b border-slate-700 text-center w-40">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-700">
+                    <tr *ngFor="let product of products"
+                        class="group hover:bg-slate-700/30 transition-colors duration-150">
+
+                        <td class="p-3">
+                            <input [(ngModel)]="product.brand"
+                                class="bg-transparent w-full text-slate-200 p-1 rounded focus:bg-slate-900 focus:ring-1 focus:ring-blue-400 outline-none border border-transparent focus:border-slate-600 transition-all">
+                        </td>
+
+                        <td class="p-3">
+                            <input [(ngModel)]="product.name"
+                                class="bg-transparent w-full text-slate-200 p-1 rounded focus:bg-slate-900 focus:ring-1 focus:ring-blue-400 outline-none border border-transparent focus:border-slate-600 transition-all">
+                        </td>
+
+                        <td class="p-3">
+                            <input type="number" [(ngModel)]="product.stock"
+                                class="w-full bg-slate-900 text-white font-bold border border-slate-600 rounded p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-center shadow-inner">
+                        </td>
+
+                        <td class="p-3">
+                            <input type="number" [(ngModel)]="product.price"
+                                class="w-full bg-slate-900 text-emerald-400 font-bold border border-slate-600 rounded p-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-right shadow-inner">
+                        </td>
+
+                        <td class="p-3 text-center">
+                            <div
+                                class="flex justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <button (click)="updateProduct(product)"
+                                    class="p-2 text-emerald-400 hover:bg-emerald-500/20 rounded-lg transition-colors"
+                                    title="Guardar cambios">
+                                    💾
+                                </button>
+                                <button (click)="deleteProduct(product._id)"
+                                    class="p-2 text-rose-400 hover:bg-rose-500/20 rounded-lg transition-colors"
+                                    title="Eliminar">
+                                    🗑️
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="products.length === 0" class="p-12 text-center text-slate-500 flex flex-col items-center">
+            <span class="text-4xl mb-2">📭</span>
+            <p>No hay productos registrados aún.</p>
+        </div>
+    </div>
+</div>
