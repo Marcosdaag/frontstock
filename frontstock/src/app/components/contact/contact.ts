@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Global } from '../../services/global.service';
 
 @Component({
   selector: 'app-contact',
@@ -31,7 +32,7 @@ export class Contact {
     const formData = this.contactForm.value;
 
     // 🔗 tu API deployada en Render
-    this.http.post('https://stockapi-2t3a.onrender.com/contact', formData).subscribe({
+    this.http.post(Global.url+'contact', formData).subscribe({
       next: (res: any) => {
         this.cargando = false;
         this.enviado = true;
