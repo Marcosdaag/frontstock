@@ -1,0 +1,30 @@
+/* Definimos una clase para el scroll personalizado */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; 
+  height: 8px; 
+}
+
+/* 🏆 SOLUCIÓN AGRESIVA PARA ELIMINAR FLECHAS */
+.custom-scrollbar::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* El "Carril" por donde se mueve la barra (Track) */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b; /* Color slate-800 */
+  border-radius: 10px;
+}
+
+/* El "Pulgar" o la parte que se mueve (Thumb) */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #475569; /* Color slate-600 */
+  border-radius: 10px;
+}
+
+/* Firefox (No se verá afectado por estas reglas, pero se mantiene el estilo) */
+.custom-scrollbar {
+  scrollbar-width: thin; 
+  scrollbar-color: #475569 #1e293b; 
+} 

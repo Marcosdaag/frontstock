@@ -41,3 +41,10 @@ body::-webkit-scrollbar-thumb {
     border-radius: 20px;
     border: 3px solid #1f2937;
 }
+
+/* Ocultar flechas en Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

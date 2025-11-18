@@ -16,6 +16,9 @@ export class Products implements OnInit {
 
   public newProduct: Product;
 
+  public costPrice: number | null = null; // Precio de costo
+  public markup: number | null = null;
+
   constructor(
     private _productService: ProductService
   ) {
@@ -27,6 +30,23 @@ export class Products implements OnInit {
   ngOnInit(): void {
     // Apenas carga la página, pedimos los productos
     this.getProducts();
+  }
+
+  calculateFinalPrice() {
+    // 1. Usamos '?? 0' (Nullish Coalescing) para asegurar que si costPrice
+    //    es 'null' o 'undefined', el valor usado sea 0 para la matemática.
+    const cost = this.costPrice ?? 0;
+    const profitMargin = this.markup ?? 0;
+
+    // 2. Quitamos el 'if' que causaba el fallo y simplemente verificamos la validez
+    if (cost >= 0) {
+      // Cálculo: Costo + (Costo * Porcentaje / 100)
+      const profit = cost * (profitMargin / 100);
+      this.newProduct.price = cost + profit;
+    } else {
+      // Si por alguna razón es negativo (aunque HTML lo previene), lo reseteamos a 0
+      this.newProduct.price = 0;
+    }
   }
 
   // 1. LISTAR PRODUCTOS
@@ -49,11 +69,10 @@ export class Products implements OnInit {
   saveNewProduct() {
     this._productService.saveProduct(this.newProduct).subscribe({
       next: (response) => {
-        // Si sale bien:
-        // 1. Recargamos la lista para ver el nuevo producto
         this.getProducts();
-        // 2. Limpiamos el formulario reiniciando la variable
         this.newProduct = new Product('', '', '', 0, 0, '');
+        this.costPrice = null;
+        this.markup = null;
       },
       error: (err) => {
         console.log(err);
