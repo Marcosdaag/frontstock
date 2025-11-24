@@ -1,120 +1,142 @@
 <style>
+    /* Personalización del Scrollbar */
     ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
     }
 
     ::-webkit-scrollbar-track {
-        background: #0f172a;
+        background: rgba(17, 24, 39, 0.5);
     }
 
     ::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 4px;
+        background: rgba(99, 102, 241, 0.3);
+        border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #475569;
+        background: rgba(99, 102, 241, 0.6);
     }
 </style>
 
-<div
-    class="h-[85vh] w-[95%] max-w-none mx-auto bg-slate-900 rounded-3xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden my-6 font-sans">
+<div class="flex flex-col h-[calc(100vh-140px)] text-gray-100 animate-enter font-sans">
 
     <header
-        class="bg-slate-800 px-6 py-5 border-b border-slate-700 shrink-0 z-10 flex flex-col md:flex-row justify-between items-center gap-4">
-        <h1 class="text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
-            📦 Gestión de Órdenes
+        class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 shrink-0 border-b border-white/10 pb-4">
+        <h1
+            class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-blue-200 drop-shadow-sm flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                class="w-8 h-8 text-indigo-400">
+                <path
+                    d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+            </svg>
+            Gestión de Órdenes
         </h1>
 
-        <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-700">
+        <div class="flex bg-gray-900/60 p-1.5 rounded-xl border border-white/10 backdrop-blur-md">
             <button (click)="vistaActual = 'NUEVA'"
-                [class]="vistaActual === 'NUEVA' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
-                class="px-6 py-2.5 rounded-lg text-base font-bold transition-all">
-                Nueva Venta
+                class="px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2"
+                [ngClass]="vistaActual === 'NUEVA' 
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                <span>✨</span> Nueva Venta
             </button>
             <button (click)="vistaActual = 'HISTORIAL'"
-                [class]="vistaActual === 'HISTORIAL' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
-                class="px-6 py-2.5 rounded-lg text-base font-bold transition-all">
-                Historial
+                class="px-6 py-2 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2"
+                [ngClass]="vistaActual === 'HISTORIAL' 
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                <span>📜</span> Historial
             </button>
         </div>
     </header>
 
-    <div class="flex-1 overflow-y-auto p-6 bg-slate-900 relative">
+    <div *ngIf="vistaActual === 'NUEVA'"
+        class="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-6 animate-enter">
 
-        <div *ngIf="vistaActual === 'NUEVA'" class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
+        <div class="lg:col-span-8 xl:col-span-9 flex flex-col h-full overflow-hidden">
 
-            <div class="lg:col-span-8 xl:col-span-9 flex flex-col gap-5">
-                <div class="sticky top-0 z-20 bg-slate-900 pb-2">
-                    <input type="text" placeholder="🔍 Buscar producto..." [(ngModel)]="terminoBusqueda"
-                        (input)="filtrarProductos()"
-                        class="w-full p-4 bg-slate-800 text-white border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl text-lg font-bold placeholder-gray-500">
+            <div class="relative mb-6 shrink-0 group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-5 h-5 text-indigo-400 group-focus-within:text-indigo-300 transition-colors">
+                        <path fill-rule="evenodd"
+                            d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                            clip-rule="evenodd" />
+                    </svg>
                 </div>
+                <input type="text" placeholder="Buscar producto..." [(ngModel)]="terminoBusqueda"
+                    (input)="filtrarProductos()"
+                    class="w-full p-4 pl-12 bg-gray-800/50 backdrop-blur-md text-white border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 shadow-lg text-lg font-medium placeholder-gray-500 transition-all hover:bg-gray-800/70">
+            </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4 pb-8">
+            <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar pb-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
 
                     <div
-                        class="bg-indigo-900/20 border-2 border-indigo-500/40 p-3 rounded-xl shadow-lg flex flex-col justify-between h-full min-h-[150px] relative group">
-
-                        <div class="mb-1">
-                            <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1">Manual</p>
-                            <h3 class="font-extrabold text-white text-base leading-tight">Personalizado</h3>
+                        class="bg-indigo-900/10 border border-indigo-500/30 p-4 rounded-2xl shadow-lg flex flex-col justify-between h-full min-h-[160px] relative group hover:bg-indigo-900/20 hover:border-indigo-500/50 transition-all duration-300">
+                        <div class="mb-2">
+                            <p
+                                class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                                Manual
+                            </p>
+                            <h3 class="font-bold text-white text-lg leading-tight">Personalizado</h3>
                         </div>
-
                         <div class="flex flex-col gap-2 mt-auto">
-                            <div>
-                                <input type="text" [(ngModel)]="descripcionManual" placeholder="Ej: Pan"
-                                    class="w-full bg-slate-900 border border-indigo-500/30 rounded-lg px-2 py-1.5 text-white text-xs font-bold focus:outline-none focus:border-indigo-400 placeholder-slate-600">
-                            </div>
-
+                            <input type="text" [(ngModel)]="descripcionManual" placeholder="Ej: Pan"
+                                class="w-full bg-gray-900/60 border border-indigo-500/20 rounded-lg px-2 py-2 text-white text-xs font-bold focus:outline-none focus:border-indigo-400 focus:bg-gray-900 placeholder-gray-600 transition-colors">
                             <div class="flex gap-2">
                                 <input type="number" [(ngModel)]="montoManual" (keyup.enter)="agregarItemManual()"
                                     placeholder="$0"
-                                    class="w-full bg-slate-900 border border-indigo-500/30 rounded-lg px-2 py-1.5 text-white text-sm font-bold focus:outline-none focus:border-indigo-400 text-center placeholder-slate-600">
-
+                                    class="w-full bg-gray-900/60 border border-indigo-500/20 rounded-lg px-2 py-2 text-white text-sm font-bold focus:outline-none focus:border-indigo-400 focus:bg-gray-900 text-center placeholder-gray-600 transition-colors">
                                 <button (click)="agregarItemManual()"
-                                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 rounded-lg transition shadow flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                                            clip-rule="evenodd" />
-                                    </svg>
+                                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 rounded-lg transition-all shadow-lg shadow-indigo-500/20 hover:scale-105 active:scale-95 flex items-center justify-center">
+                                    +
                                 </button>
                             </div>
                         </div>
                     </div>
+
                     <ng-container *ngIf="productos.length > 0">
                         <ng-container *ngFor="let prod of productos">
                             <div *ngIf="!prod.name.toLowerCase().includes('varios')" (click)="agregarAlCarrito(prod)"
-                                class="bg-slate-800 p-4 rounded-xl shadow hover:shadow-blue-900/40 hover:-translate-y-1 cursor-pointer transition-all border border-slate-700 group relative flex flex-col justify-between h-full min-h-[150px]">
+                                class="bg-gray-800/40 backdrop-blur-sm p-4 rounded-2xl shadow-lg hover:shadow-indigo-500/20 hover:-translate-y-1 cursor-pointer transition-all duration-300 border border-white/5 hover:border-indigo-500/30 group relative flex flex-col justify-between h-full min-h-[160px] overflow-hidden">
 
-                                <div class="absolute top-2 right-2 text-xs font-extrabold px-2.5 py-0.5 rounded-full border border-slate-600"
-                                    [ngClass]="prod.stock > 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-indigo-500/0 to-indigo-500/0 group-hover:from-indigo-500/5 group-hover:to-purple-500/10 transition-all duration-500">
+                                </div>
+
+                                <div class="absolute top-2 right-2 text-xs font-black px-3 py-1 rounded-lg border shadow-md z-10 tracking-wide"
+                                    [ngClass]="prod.stock > 0 
+                                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' 
+                                        : 'bg-rose-500/20 text-rose-300 border-rose-500/30'">
                                     {{ prod.stock }}
                                 </div>
 
-                                <div class="mt-1">
-                                    <p class="text-xs font-bold text-blue-300 uppercase tracking-wider mb-1 opacity-80">
-                                        {{ prod.brand }}</p>
-
-                                    <div class="min-h-[3rem] flex items-start">
-                                        <h3
-                                            class="font-extrabold text-white text-base md:text-lg leading-tight group-hover:text-blue-400 line-clamp-2">
-                                            {{ prod.name }}
-                                        </h3>
-                                    </div>
+                                <div class="mt-2 relative z-10">
+                                    <p
+                                        class="text-[10px] font-bold text-indigo-300 uppercase tracking-wider mb-1 opacity-70 group-hover:opacity-100 transition-opacity">
+                                        {{ prod.brand }}
+                                    </p>
+                                    <h3
+                                        class="font-bold text-gray-100 text-lg leading-tight group-hover:text-white line-clamp-2 transition-colors">
+                                        {{ prod.name }}
+                                    </h3>
                                 </div>
 
-                                <div class="flex justify-between items-end mt-3 pt-3 border-t border-slate-700/50">
-                                    <span class="text-2xl font-black text-white tracking-tight">${{ prod.price }}</span>
+                                <div
+                                    class="flex justify-between items-end mt-4 pt-3 border-t border-white/5 relative z-10">
+                                    <span
+                                        class="text-2xl font-black text-gray-100 tracking-tight group-hover:text-indigo-200 transition-colors">${{
+                                        prod.price }}</span>
+
                                     <div
-                                        class="bg-blue-600/20 text-blue-400 p-2 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path
-                                                d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                        class="bg-indigo-500/10 text-indigo-400 p-2 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-indigo-500/40">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="w-5 h-5">
+                                            <path fill-rule="evenodd"
+                                                d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                                                clip-rule="evenodd" />
                                         </svg>
                                     </div>
                                 </div>
@@ -124,104 +146,114 @@
 
                 </div>
             </div>
+        </div>
 
-            <div class="lg:col-span-4 xl:col-span-3 flex flex-col h-full">
-                <div
-                    class="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 flex flex-col h-full overflow-hidden sticky top-2">
+        <div class="lg:col-span-4 xl:col-span-3 flex flex-col h-full">
+            <div
+                class="bg-gray-800/60 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 flex flex-col h-full overflow-hidden sticky top-0">
 
-                    <div class="p-5 border-b border-slate-700 bg-slate-800 shrink-0">
-                        <h2 class="font-extrabold text-white text-xl flex justify-between items-center tracking-tight">
-                            <span>🛒 Ticket</span>
-                            <span class="text-sm bg-blue-600 text-white px-2.5 py-1 rounded-full font-bold">{{
-                                carrito.length }}</span>
-                        </h2>
-                    </div>
+                <div class="p-5 border-b border-white/10 bg-gray-900/30 shrink-0 flex justify-between items-center">
+                    <h2 class="font-extrabold text-white text-xl flex items-center gap-2 tracking-tight">
+                        <span>🛒 Ticket</span>
+                    </h2>
+                    <span
+                        class="text-xs bg-indigo-600 text-white px-2.5 py-1 rounded-full font-bold shadow-lg shadow-indigo-500/20">
+                        {{ carrito.length }} items
+                    </span>
+                </div>
 
-                    <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-800/50">
-                        <div *ngFor="let item of carrito; let i = index"
-                            class="flex justify-between items-center bg-slate-900 p-3.5 rounded-xl border border-slate-700 group hover:border-slate-500 transition shadow-sm">
-                            <div class="flex-1 min-w-0 pr-3">
-                                <p class="text-base font-bold text-white truncate">
-                                    {{ item.customName || item.producto.name }}
-                                </p>
-                                <p class="text-sm text-blue-300 font-semibold mt-0.5">{{ item.cantidad }} x ${{
-                                    item.producto.price }}</p>
-                            </div>
-                            <div class="flex items-center gap-3 shrink-0">
-                                <span class="font-bold text-white text-base">${{ item.subtotal }}</span>
-                                <button (click)="eliminarDelCarrito(i)"
-                                    class="text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 p-1.5 rounded-lg transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                            </div>
+                <div class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                    <div *ngFor="let item of carrito; let i = index"
+                        class="flex justify-between items-center bg-gray-900/40 hover:bg-gray-900/60 p-3 rounded-xl border border-white/5 hover:border-indigo-500/30 transition-all duration-200 group">
+
+                        <div class="flex-1 min-w-0 pr-3">
+                            <p
+                                class="text-sm font-bold text-gray-200 truncate group-hover:text-white transition-colors">
+                                {{ item.customName || item.producto.name }}
+                            </p>
+                            <p class="text-xs text-indigo-300 font-semibold mt-0.5">
+                                {{ item.cantidad }} x ${{ item.producto.price }}
+                            </p>
                         </div>
 
-                        <div *ngIf="carrito.length === 0"
-                            class="flex flex-col items-center justify-center py-12 opacity-50">
-                            <p class="text-base text-slate-400 font-medium">Carrito vacío</p>
+                        <div class="flex items-center gap-3 shrink-0">
+                            <span class="font-bold text-white text-base">${{ item.subtotal }}</span>
+                            <button (click)="eliminarDelCarrito(i)"
+                                class="text-gray-500 hover:text-rose-400 hover:bg-rose-500/10 p-1.5 rounded-lg transition-all transform hover:scale-110">
+                                ✖
+                            </button>
                         </div>
                     </div>
 
-                    <div class="p-5 bg-slate-800 border-t border-slate-700 shrink-0">
-                        <div class="flex justify-between items-end mb-5">
-                            <span class="text-slate-400 font-bold text-base">Total</span>
-                            <span class="text-4xl font-black text-emerald-400 tracking-tight">${{ total }}</span>
-                        </div>
-                        <button (click)="confirmarVenta()" [disabled]="carrito.length === 0"
-                            class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold text-lg py-4 rounded-xl shadow-lg shadow-emerald-900/30 transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
-                            PAGAR
-                        </button>
+                    <div *ngIf="carrito.length === 0"
+                        class="flex flex-col items-center justify-center h-full opacity-40">
+                        <p class="text-sm font-medium text-gray-400">Carrito vacío</p>
                     </div>
+                </div>
+
+                <div class="p-5 bg-gray-900/50 border-t border-white/10 shrink-0 backdrop-blur-sm">
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="text-gray-400 font-bold text-sm uppercase tracking-wider">Total</span>
+                        <span class="text-4xl font-black text-emerald-400 tracking-tight">${{ total }}</span>
+                    </div>
+                    <button (click)="confirmarVenta()" [disabled]="carrito.length === 0"
+                        class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold text-lg py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+                        PAGAR
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div *ngIf="vistaActual === 'HISTORIAL'"
-            class="bg-slate-800 rounded-2xl shadow-lg border border-slate-700 overflow-hidden">
-            <table class="min-w-full divide-y divide-slate-700">
-                <thead class="bg-slate-900/80">
+    <div *ngIf="vistaActual === 'HISTORIAL'" class="flex-1 overflow-hidden bg-transparent animate-enter flex flex-col">
+        <div class="flex-1 overflow-y-auto custom-scrollbar px-1">
+
+            <table class="min-w-full border-separate border-spacing-y-4 text-left">
+
+                <thead class="sticky top-0 z-10">
                     <tr>
-                        <th class="px-6 py-5 text-left text-sm font-bold text-slate-300 uppercase tracking-wider w-32">
+                        <th
+                            class="px-6 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider w-32 bg-gray-900/80 backdrop-blur-md rounded-l-xl">
                             Fecha</th>
-                        <th class="px-6 py-5 text-left text-sm font-bold text-slate-300 uppercase tracking-wider">
-                            Productos Vendidos</th>
-                        <th class="px-6 py-5 text-left text-sm font-bold text-slate-300 uppercase tracking-wider w-36">
+                        <th
+                            class="px-6 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-900/80 backdrop-blur-md">
+                            Productos</th>
+                        <th
+                            class="px-6 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider w-36 bg-gray-900/80 backdrop-blur-md">
                             Total</th>
-                        <th class="px-6 py-5 text-right text-sm font-bold text-slate-300 uppercase tracking-wider w-24">
+                        <th
+                            class="px-6 py-3 text-right text-xs font-bold text-gray-400 uppercase tracking-wider w-24 bg-gray-900/80 backdrop-blur-md rounded-r-xl">
                             Acciones</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-700">
-                    <tr *ngFor="let orden of historial" class="hover:bg-slate-700/40 transition">
 
-                        <td class="px-6 py-5 text-sm font-bold text-gray-100 align-top">
+                <tbody>
+                    <tr *ngFor="let orden of historial"
+                        class="group bg-gray-800/60 hover:bg-gray-800/90 shadow-md hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 hover:scale-[1.005]">
+
+                        <td
+                            class="px-6 py-6 text-sm font-bold text-gray-100 align-top rounded-l-2xl border-y border-l border-white/5 group-hover:border-indigo-500/30">
                             <div class="flex flex-col">
-                                <span class="text-base font-bold text-gray-100">{{ orden.createdAt | date:'dd MMM'
-                                    }}</span>
-                                <span class="text-sm text-slate-500 font-medium mt-1">{{ orden.createdAt | date:'HH:mm'
-                                    }} hs</span>
+                                <span class="text-lg text-white font-black">{{ orden.createdAt | date:'dd MMM' }}</span>
+                                <span class="text-xs text-indigo-300 font-mono mt-1 font-bold opacity-80">{{
+                                    orden.createdAt | date:'HH:mm' }} hs</span>
                             </div>
                         </td>
 
-                        <td class="px-6 py-5 align-top">
-                            <div class="flex flex-wrap gap-2.5">
+                        <td class="px-6 py-6 align-top border-y border-white/5 group-hover:border-indigo-500/30">
+                            <div class="flex flex-col gap-3">
                                 <div *ngFor="let item of orden.products"
-                                    class="inline-flex items-center gap-2 bg-slate-900/50 border border-slate-700 px-3 py-1.5 rounded-lg">
+                                    class="flex items-center gap-4 bg-gray-900/50 border border-black/20 px-4 py-2.5 rounded-xl hover:bg-gray-900/80 transition-colors">
 
-                                    <span class="text-sm font-extrabold text-blue-400">{{ item.quantity }}x</span>
+                                    <span class="text-lg font-black text-indigo-400 min-w-[30px]">{{ item.quantity
+                                        }}x</span>
 
-                                    <div class="flex flex-col leading-none">
+                                    <div class="flex flex-col leading-tight">
                                         <span *ngIf="!item.customName"
-                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">
+                                            class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">
                                             {{ item.product?.brand }}
                                         </span>
-
-                                        <span class="text-sm font-medium text-gray-300 max-w-[180px] truncate"
+                                        <span class="text-base font-bold text-gray-200"
                                             title="{{ item.customName || item.product?.name }}">
                                             {{ item.customName || item.product?.name || 'Producto eliminado' }}
                                         </span>
@@ -230,26 +262,27 @@
                             </div>
                         </td>
 
-                        <td class="px-6 py-5 text-xl font-black text-emerald-400 align-top">
+                        <td
+                            class="px-6 py-6 text-2xl font-black text-emerald-400 align-top drop-shadow-sm border-y border-white/5 group-hover:border-indigo-500/30">
                             ${{ orden.total }}
                         </td>
 
-                        <td class="px-6 py-5 text-right align-top">
+                        <td
+                            class="px-6 py-6 text-right align-top rounded-r-2xl border-y border-r border-white/5 group-hover:border-indigo-500/30">
                             <button (click)="borrarOrden(orden._id)"
-                                class="text-rose-400 hover:bg-rose-500/10 p-2.5 rounded-lg transition"
+                                class="text-gray-500 hover:text-rose-400 hover:bg-rose-500/10 p-3 rounded-xl transition-all hover:scale-110 shadow-sm border border-transparent hover:border-rose-500/20"
                                 title="Eliminar registro">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="w-6 h-6">
+                                    <path fill-rule="evenodd"
+                                        d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.49 1.478l-.56.075-.992 12.413a3 3 0 01-2.991 2.766H8.784a3 3 0 01-2.991-2.766L4.803 6.694l-.56-.075a.75.75 0 01-.49-1.478A48.567 48.567 0 017.5 4.478a3.033 3.033 0 015.002 0zm-1.375 2.977a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm-4.5 0a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </button>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>

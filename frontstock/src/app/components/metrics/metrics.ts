@@ -1,19 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core'; // <--- 1. AGREGAR ChangeDetectorRef
 import { OrderService } from '../../services/order.service';
 
 import {
   ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexStroke,
-  ApexYAxis,
-  ApexLegend,
-  ApexGrid,
-  ApexTooltip,
-  ApexPlotOptions,
-  ApexFill
+  // ... (resto de imports de ApexCharts siguen igual)
 } from "ng-apexcharts";
 
 @Component({
@@ -27,24 +17,30 @@ export class Metrics implements OnInit {
   @ViewChild("chart") chart: ChartComponent | undefined;
 
   public chartOptions: any;
-
   public todasLasOrdenes: any[] = [];
   public fechaActual: Date = new Date();
   public nombreMes: string = '';
   public totalMesDinero: number = 0;
   public totalMesCantidad: number = 0;
 
-  constructor(private _orderService: OrderService) {
+  // 2. NUEVA VARIABLE PARA CONTROLAR LA VISUALIZACIÓN
+  public datosCargados: boolean = false;
 
-    // --- FUNCIÓN DE FORMATEO DE DINERO (Mágica) ---
-    // Convierte 1500000 en $1.5M y 2000 en $2k
+  // 3. INYECTAR ChangeDetectorRef EN EL CONSTRUCTOR
+  constructor(
+    private _orderService: OrderService,
+    private cdr: ChangeDetectorRef
+  ) {
+    // ... (Tu función formatMoney y la configuración inicial de chartOptions siguen igual) ...
     const formatMoney = (value: number) => {
-      if (value >= 1000000) return '$' + (value / 1000000).toFixed(1) + 'M'; // Millones
-      if (value >= 1000) return '$' + (value / 1000).toFixed(0) + 'k';       // Miles
+      if (value >= 1000000) return '$' + (value / 1000000).toFixed(1) + 'M';
+      if (value >= 1000) return '$' + (value / 1000).toFixed(0) + 'k';
       return '$' + value;
     };
 
     this.chartOptions = {
+      // ... (Toda tu configuración chartOptions original va aquí, NO CAMBIA NADA) ...
+      // Asegúrate de que series empiece vacío: series: []
       series: [],
       chart: {
         height: 380,
@@ -59,15 +55,12 @@ export class Metrics implements OnInit {
         bar: { columnWidth: '50%', borderRadius: 4 }
       },
       colors: ['#10b981', '#3b82f6'],
-
-      // --- ETIQUETAS SOBRE LAS BARRAS/LÍNEAS ---
       dataLabels: {
         enabled: true,
         enabledOnSeries: [0, 1],
         formatter: function (val: any, opts: any) {
-          // Si es la serie de Dinero (0), usamos el formato corto ($1.5k)
           if (opts.seriesIndex === 0) return formatMoney(val);
-          return val; // Si es cantidad, mostramos el número normal
+          return val;
         },
         style: { fontSize: '10px', fontWeight: 'bold', colors: ['#10b981', '#3b82f6'] },
         background: {
@@ -80,15 +73,13 @@ export class Metrics implements OnInit {
         },
         offsetY: -5
       },
-
       legend: { show: false },
       grid: {
         borderColor: '#334155',
         strokeDashArray: 4,
         xaxis: { lines: { show: false } },
-        padding: { left: 20, right: 0 } // Un poco más de margen a la izquierda para los números
+        padding: { left: 20, right: 0 }
       },
-
       xaxis: {
         categories: [],
         labels: { show: true, style: { colors: '#94a3b8', fontSize: '12px' } },
@@ -96,14 +87,11 @@ export class Metrics implements OnInit {
         axisTicks: { show: false },
         tooltip: { enabled: false }
       },
-
-      // --- EJES Y (AQUÍ ESTÁ LA CLAVE DEL FORMATO) ---
       yaxis: [
         {
           seriesName: "Ingresos",
           labels: {
             style: { colors: '#10b981', fontWeight: 600 },
-            // Usamos la función abreviada aquí también
             formatter: (val: number) => formatMoney(val)
           },
           title: { text: "Ingresos", style: { color: '#10b981', fontWeight: 600 } }
@@ -118,15 +106,12 @@ export class Metrics implements OnInit {
           title: { text: "Cantidad", style: { color: '#3b82f6', fontWeight: 600 } }
         }
       ],
-
-      // --- TOOLTIP (Aquí sí mostramos el número completo) ---
       tooltip: {
         theme: 'dark',
         shared: true,
         intersect: false,
         y: {
           formatter: function (val: any, opts: any) {
-            // En el tooltip queremos ver el detalle exacto: $1,250,000
             if (opts.seriesIndex === 0) return '$' + val.toLocaleString();
             return val + ' ventas';
           }
@@ -163,8 +148,12 @@ export class Metrics implements OnInit {
   }
 
   cambiarMes(direccion: number) {
+    // Pequeño truco: Ocultamos el gráfico un instante al cambiar de mes para reiniciar la animación
+    this.datosCargados = false;
+
     this.fechaActual.setMonth(this.fechaActual.getMonth() + direccion);
     this.fechaActual = new Date(this.fechaActual);
+
     this.procesarDatosPorMes();
   }
 
@@ -186,18 +175,16 @@ export class Metrics implements OnInit {
 
     this.todasLasOrdenes.forEach(orden => {
       const fechaOrden = new Date(orden.createdAt);
-
       if (fechaOrden.getMonth() === mes && fechaOrden.getFullYear() === año) {
         const dia = fechaOrden.getDate();
-
         datosDinero[dia - 1] += orden.total;
         datosCantidad[dia - 1] += 1;
-
         this.totalMesDinero += orden.total;
         this.totalMesCantidad += 1;
       }
     });
 
+    // Actualizamos los datos
     this.chartOptions.series = [
       { name: "Ingresos", type: "line", data: datosDinero },
       { name: "Ventas", type: "column", data: datosCantidad }
@@ -207,5 +194,9 @@ export class Metrics implements OnInit {
       ...this.chartOptions.xaxis,
       categories: etiquetasDias
     };
+
+    // 4. EL TRUCO FINAL: Activamos la bandera y forzamos la detección de cambios
+    this.datosCargados = true;
+    this.cdr.detectChanges(); // <--- OBLIGAMOS A ANGULAR A RENDERIZAR AHORA
   }
 }

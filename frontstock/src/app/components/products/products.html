@@ -1,180 +1,245 @@
-<div class="min-h-screen bg-slate-900 p-4 md:p-8 text-slate-200 relative rounded">
+<div class="w-full h-full text-gray-100 animate-enter">
 
-    <h1 class="text-3xl font-bold mb-8 text-white border-b border-slate-700 pb-4">
-        📦 Gestión de Productos
-    </h1>
+    <div class="flex flex-col md:flex-row justify-between items-end mb-6 border-b border-white/10 pb-4">
+        <div>
+            <h1
+                class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-blue-200 drop-shadow-sm flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                    class="w-8 h-8 text-indigo-400">
+                    <path
+                        d="M12.378 1.602a.75.75 0 00-.756 0L3 6.632l9 5.25 9-5.25-8.622-5.03zM21.75 7.93l-9 5.25v9l8.628-5.032a.75.75 0 00.372-.648V7.93zM11.25 22.18v-9l-9-5.25v8.57a.75.75 0 00.372.648l8.628 5.033z" />
+                </svg>
+                Gestión de Productos
+            </h1>
+            <p class="text-gray-400 text-sm mt-1 ml-11">Administra tu inventario y precios de forma eficiente.</p>
+        </div>
 
-    <div class="bg-slate-800 p-6 rounded-xl shadow-lg mb-8 border border-slate-700">
+        <div class="relative w-full md:w-96 mt-6 md:mt-0 group">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                    class="w-5 h-5 text-indigo-400 group-focus-within:text-indigo-300 transition-colors">
+                    <path fill-rule="evenodd"
+                        d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+            <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Buscar marca o nombre..."
+                class="w-full bg-gray-900/50 border border-indigo-500/30 text-gray-200 text-sm rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 block pl-10 p-2.5 placeholder-gray-500 transition-all shadow-lg hover:bg-gray-900/70 outline-none">
 
-        <h2 class="text-xl font-semibold text-blue-400 mb-4 flex items-center gap-2">
-            <span>✨</span> Agregar Nuevo Producto
+            <button *ngIf="searchTerm" (click)="searchTerm = ''; onSearch()"
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-white cursor-pointer transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd"
+                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div
+        class="bg-gray-800/40 backdrop-blur-md p-6 rounded-2xl shadow-xl mb-8 border border-white/5 relative overflow-hidden group hover:border-indigo-500/30 transition-all duration-500">
+
+        <div
+            class="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/20 transition-all duration-700 pointer-events-none">
+        </div>
+
+        <h2 class="text-lg font-semibold text-indigo-300 mb-4 flex items-center gap-2 relative z-10">
+            <span class="bg-indigo-500/20 p-1.5 rounded-lg text-indigo-400">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd"
+                        d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                        clip-rule="evenodd" />
+                </svg>
+            </span>
+            Agregar Nuevo Producto
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-10 gap-4 items-end">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-end relative z-10">
 
-            <div class="md:col-span-2">
-                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Marca <span
-                        class="text-red-500">*</span></label>
+            <div class="md:col-span-3">
+                <label class="flex items-center gap-1 text-xs text-gray-400 mb-1.5 uppercase font-bold tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-3 h-3 text-indigo-400">
+                        <path fill-rule="evenodd"
+                            d="M5.25 2.25a3 3 0 00-3 3v4.318a3 3 0 00.879 2.121l9.58 9.581c.92.92 2.409.92 3.328 0l5.318-5.318a2.25 2.25 0 000-3.182l-9.58-9.58A3 3 0 009.568 2.25H5.25zM6 6a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Marca <span class="text-rose-400">*</span>
+                </label>
                 <input type="text" [(ngModel)]="newProduct.brand" placeholder="Ej: Águila" required
-                    class="w-full bg-slate-900 text-white placeholder-slate-600 border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    class="w-full bg-gray-900/60 text-white placeholder-gray-600 border border-gray-600/50 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all hover:bg-gray-900/80">
             </div>
 
-            <div class="md:col-span-2">
-                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Nombre <span
-                        class="text-red-500">*</span></label>
+            <div class="md:col-span-3">
+                <label class="flex items-center gap-1 text-xs text-gray-400 mb-1.5 uppercase font-bold tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-3 h-3 text-indigo-400">
+                        <path fill-rule="evenodd"
+                            d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Nombre <span class="text-rose-400">*</span>
+                </label>
                 <input type="text" [(ngModel)]="newProduct.name" placeholder="Ej: Turrón de Maní" required
-                    class="w-full bg-slate-900 text-white placeholder-slate-600 border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    class="w-full bg-gray-900/60 text-white placeholder-gray-600 border border-gray-600/50 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all hover:bg-gray-900/80">
             </div>
 
             <div class="md:col-span-1">
-                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Stock</label>
+                <label class="flex items-center gap-1 text-xs text-gray-400 mb-1.5 uppercase font-bold tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-3 h-3 text-indigo-400">
+                        <path fill-rule="evenodd"
+                            d="M3 6a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3V6zM3 15.75a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3v-2.25zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-2.25z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Stock
+                </label>
                 <input type="number" [(ngModel)]="newProduct.stock" min="0" placeholder="0"
-                    class="w-full bg-slate-900 text-white placeholder-slate-600 border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    class="w-full bg-gray-900/60 text-white placeholder-gray-600 border border-gray-600/50 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all text-center">
             </div>
 
             <div class="md:col-span-1">
-                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">Costo ($)</label>
-                <input type="number" [(ngModel)]="costPrice" (input)="calculateFinalPrice()" min="0" placeholder="100"
-                    class="w-full bg-slate-900 text-white placeholder-slate-600 border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                <label class="flex items-center gap-1 text-xs text-gray-400 mb-1.5 uppercase font-bold tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-3 h-3 text-indigo-400">
+                        <path
+                            d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 01-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.324.152-.692.546-1.004zM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 01-.921.42z" />
+                        <path fill-rule="evenodd"
+                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v.816a3.836 3.836 0 00-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 01-.921-.421l-.879-.66a.75.75 0 00-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 001.5 0v-.81a4.124 4.124 0 001.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 00-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 00.933-1.175l-.415-.33a3.836 3.836 0 00-1.719-.755V6z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Costo
+                </label>
+                <input type="number" [(ngModel)]="costPrice" (input)="calculateFinalPrice()" min="0" placeholder="$"
+                    class="w-full bg-gray-900/60 text-white placeholder-gray-600 border border-gray-600/50 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all text-center">
             </div>
 
             <div class="md:col-span-1">
-                <label class="block text-xs text-slate-400 mb-1 uppercase font-bold">% Ganancia</label>
-                <input type="number" [(ngModel)]="markup" (input)="calculateFinalPrice()" min="0" placeholder="50"
-                    class="w-full bg-slate-900 text-white placeholder-slate-600 border border-slate-600 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                <label class="flex items-center gap-1 text-xs text-gray-400 mb-1.5 uppercase font-bold tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="w-3 h-3 text-indigo-400">
+                        <path fill-rule="evenodd"
+                            d="M2.25 18a.75.75 0 00.75.75c5.385 0 9.75-4.365 9.75-9.75 0-1.33-.266-2.597-.748-3.752A9.753 9.753 0 003 4.5a.75.75 0 000 1.5 8.25 8.25 0 118.25 8.25H3a.75.75 0 00-.75.75z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    % Gan
+                </label>
+                <input type="number" [(ngModel)]="markup" (input)="calculateFinalPrice()" min="0" placeholder="%"
+                    class="w-full bg-gray-900/60 text-white placeholder-gray-600 border border-gray-600/50 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all text-center">
+            </div>
+
+            <div class="md:col-span-1">
+                <label
+                    class="flex items-center gap-1 text-xs text-emerald-400 mb-1.5 uppercase font-bold tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                        <path fill-rule="evenodd"
+                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM9 7.5A.75.75 0 009 9h1.5c.512 0 1.024.195 1.414.586l.9.9H9a.75.75 0 000 1.5h5.571l-1.057 1.057A2.003 2.003 0 0112 13.5H9a.75.75 0 000 1.5h1.5c.512 0 1.024.195 1.414.586l1.172 1.172a.75.75 0 101.06-1.06l-1.172-1.172c-.39-.39-.902-.586-1.414-.586H15a.75.75 0 000-1.5h-3.9l.9-.9c.39-.39.902-.586 1.414-.586H15a.75.75 0 000-1.5H9z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Final
+                </label>
+                <div
+                    class="w-full bg-emerald-900/20 text-emerald-400 font-bold border border-emerald-500/30 rounded-xl p-3 text-center shadow-[0_0_10px_rgba(16,185,129,0.1)]">
+                    {{ newProduct.price | number:'1.0-0' }}
+                </div>
             </div>
 
             <div class="md:col-span-2">
-                <label class="block text-xs text-emerald-400 mb-1 uppercase font-bold">Precio Final</label>
-                <input type="text" [value]="newProduct.price | number:'1.2-2'" readonly
-                    class="w-full bg-slate-800 text-emerald-400 font-bold border border-slate-700 rounded-lg p-2.5 outline-none cursor-not-allowed">
-            </div>
-
-            <div class="md:col-span-1">
                 <button type="button" (click)="saveNewProduct()"
                     [disabled]="!newProduct.brand || !newProduct.name || newProduct.price <= 0"
-                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-lg shadow-lg transition-all flex justify-center items-center gap-2 h-[46px] disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span>+</span> Guardar
+                    class="w-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-indigo-500/20 transition-all transform hover:scale-[1.02] active:scale-95 flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                            d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 011.04-.207z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Guardar
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="mb-6 relative mt-6">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span class="text-slate-500 text-lg">🔍</span>
-        </div>
+    <div
+        class="bg-gray-800/40 backdrop-blur-md rounded-2xl shadow-2xl border border-white/5 overflow-hidden flex flex-col h-[600px]">
 
-        <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Buscar por nombre o marca..."
-            class="w-full bg-slate-800 text-white border border-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-10 p-3 placeholder-slate-500 shadow-md outline-none transition-all">
-
-        <button *ngIf="searchTerm" (click)="searchTerm = ''; onSearch()"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-white cursor-pointer">
-            ✖
-        </button>
-    </div>
-
-    <div class="bg-transparent md:bg-slate-800 md:rounded-xl md:shadow-lg md:border md:border-slate-700 overflow-hidden pb-20 
-            max-h-[635px] overflow-y-auto custom-scrollbar">
-        <div class="md:hidden space-y-4">
-            <div *ngFor="let product of products"
-                class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-sm relative">
-
-                <div class="mb-4 border-b border-slate-700/50 pb-3">
-                    <input [(ngModel)]="product.brand"
-                        class="block w-full bg-transparent text-xs font-bold uppercase text-blue-400 mb-1 outline-none placeholder-slate-600"
-                        placeholder="Marca">
-                    <input [(ngModel)]="product.name"
-                        class="block w-full bg-transparent text-lg font-bold text-white outline-none placeholder-slate-600"
-                        placeholder="Nombre del producto">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="text-xs text-slate-500 uppercase font-bold mb-1 block">Stock</label>
-                        <input type="number" [(ngModel)]="product.stock"
-                            class="w-full bg-slate-900 text-white font-bold border border-slate-600 rounded p-3 focus:border-blue-500 outline-none text-center text-lg">
-                    </div>
-                    <div>
-                        <label class="text-xs text-slate-500 uppercase font-bold mb-1 block">Precio</label>
-                        <input type="number" [(ngModel)]="product.price"
-                            class="w-full bg-slate-900 text-emerald-400 font-bold border border-slate-600 rounded p-3 focus:border-emerald-500 outline-none text-center text-lg">
-                    </div>
-                </div>
-
-                <div class="flex gap-3">
-                    <button (click)="updateProduct(product)"
-                        class="flex-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-600/30 py-2 rounded-lg flex items-center justify-center gap-2 font-semibold transition-all">
-                        💾 Guardar
-                    </button>
-                    <button (click)="deleteProduct(product._id)"
-                        class="flex-1 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 border border-rose-600/30 py-2 rounded-lg flex items-center justify-center gap-2 font-semibold transition-all">
-                        🗑️ Borrar
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="hidden md:block overflow-x-auto">
+        <div class="overflow-x-auto custom-scrollbar flex-1">
             <table class="w-full text-left border-collapse">
-                <thead class="bg-slate-950 text-slate-400 uppercase text-xs font-bold tracking-wider">
+                <thead
+                    class="bg-gray-900/80 text-gray-400 uppercase text-xs font-bold tracking-wider sticky top-0 z-20 backdrop-blur-md">
                     <tr>
-                        <th class="p-4 border-b border-slate-700">Marca</th>
-                        <th class="p-4 border-b border-slate-700">Nombre</th>
-                        <th class="p-4 border-b border-slate-700 w-32">Stock</th>
-                        <th class="p-4 border-b border-slate-700 w-32">Precio ($)</th>
-                        <th class="p-4 border-b border-slate-700 text-center w-40">Acciones</th>
+                        <th class="p-4 border-b border-white/10">Marca</th>
+                        <th class="p-4 border-b border-white/10">Nombre</th>
+                        <th class="p-4 border-b border-white/10 text-center w-24">Stock</th>
+                        <th class="p-4 border-b border-white/10 text-right w-32">Precio ($)</th>
+                        <th class="p-4 border-b border-white/10 text-center w-32">Acciones</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-slate-700">
-                    <tr *ngFor="let product of products"
-                        class="group hover:bg-slate-700/30 transition-colors duration-150">
+                <tbody class="divide-y divide-white/5">
+                    <tr *ngFor="let product of products" class="group hover:bg-white/5 transition-colors duration-200">
 
                         <td class="p-3">
                             <input [(ngModel)]="product.brand"
-                                class="bg-transparent w-full text-slate-200 p-1 rounded focus:bg-slate-900 focus:ring-1 focus:ring-blue-400 outline-none border border-transparent focus:border-slate-600 transition-all">
+                                class="bg-transparent w-full text-gray-300 font-medium p-2 rounded-lg outline-none border border-transparent focus:bg-gray-900 focus:border-indigo-500/50 focus:text-white transition-all placeholder-gray-600">
                         </td>
 
                         <td class="p-3">
                             <input [(ngModel)]="product.name"
-                                class="bg-transparent w-full text-slate-200 p-1 rounded focus:bg-slate-900 focus:ring-1 focus:ring-blue-400 outline-none border border-transparent focus:border-slate-600 transition-all">
+                                class="bg-transparent w-full text-gray-200 font-bold p-2 rounded-lg outline-none border border-transparent focus:bg-gray-900 focus:border-indigo-500/50 transition-all placeholder-gray-600">
                         </td>
 
                         <td class="p-3">
                             <input type="number" [(ngModel)]="product.stock"
-                                class="w-full bg-slate-900 text-white font-bold border border-slate-600 rounded p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-center shadow-inner">
+                                class="w-full bg-transparent text-gray-300 p-2 rounded-lg outline-none border border-transparent focus:bg-gray-900 focus:border-indigo-500/50 text-center transition-all"
+                                [ngClass]="{'text-red-400 font-bold': product.stock === 0}">
                         </td>
 
                         <td class="p-3">
                             <input type="number" [(ngModel)]="product.price"
-                                class="w-full bg-slate-900 text-emerald-400 font-bold border border-slate-600 rounded p-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-right shadow-inner">
+                                class="w-full bg-transparent text-emerald-400 font-bold p-2 rounded-lg outline-none border border-transparent focus:bg-gray-900 focus:border-emerald-500/50 text-right transition-all">
                         </td>
 
                         <td class="p-3 text-center">
                             <div
-                                class="flex justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                class="flex justify-center gap-2 opacity-40 group-hover:opacity-100 transition-all duration-200 transform group-hover:scale-105">
+
                                 <button (click)="updateProduct(product)"
-                                    class="p-2 text-emerald-400 hover:bg-emerald-500/20 rounded-lg transition-colors"
+                                    class="p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg border border-emerald-500/20 transition-all hover:shadow-[0_0_10px_rgba(16,185,129,0.2)] hover:scale-110"
                                     title="Guardar cambios">
-                                    💾
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-4 h-4">
+                                        <path fill-rule="evenodd"
+                                            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+                                            clip-rule="evenodd" />
+                                    </svg>
                                 </button>
+
                                 <button (click)="deleteProduct(product._id)"
-                                    class="p-2 text-rose-400 hover:bg-rose-500/20 rounded-lg transition-colors"
+                                    class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-lg border border-rose-500/20 transition-all hover:shadow-[0_0_10px_rgba(244,63,94,0.2)] hover:scale-110"
                                     title="Eliminar">
-                                    🗑️
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-4 h-4">
+                                        <path fill-rule="evenodd"
+                                            d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.49 1.478l-.56.075-.992 12.413a3 3 0 01-2.991 2.766H8.784a3 3 0 01-2.991-2.766L4.803 6.694l-.56-.075a.75.75 0 01-.49-1.478A48.567 48.567 0 017.5 4.478a3.033 3.033 0 015.002 0zm-1.375 2.977a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm-4.5 0a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z"
+                                            clip-rule="evenodd" />
+                                    </svg>
                                 </button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
 
-        <div *ngIf="products.length === 0" class="p-12 text-center text-slate-500 flex flex-col items-center">
-            <span class="text-4xl mb-2">📭</span>
-            <p>No hay productos registrados aún.</p>
+            <div *ngIf="products.length === 0" class="flex flex-col items-center justify-center h-64 text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-20 h-20 mb-4 opacity-30">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                </svg>
+                <p class="text-lg font-medium">No hay productos registrados aún</p>
+                <p class="text-sm">Agrega uno nuevo usando el formulario de arriba.</p>
+            </div>
         </div>
     </div>
 </div>
