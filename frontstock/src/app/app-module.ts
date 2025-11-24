@@ -15,6 +15,7 @@ import { Products } from './components/products/products';
 import { Orders } from './components/orders/orders';
 import { Contact } from './components/contact/contact';
 import { Managment } from './components/managment/managment';
+import { Metrics } from './components/metrics/metrics';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { Managment } from './components/managment/managment';
     Orders,
     Contact,
     Managment,
+    Metrics,
   ],
   imports: [
     BrowserModule,

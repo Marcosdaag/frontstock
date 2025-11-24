@@ -10,6 +10,7 @@ import { Contact } from './components/contact/contact';
 import { Managment } from "./components/managment/managment";
 import { AuthGuard } from './auth/auth.guard';
 import { LoginGuard } from "./guards/login.guard";
+import { Metrics } from "./components/metrics/metrics";
 
 const appRoutes: Routes = [
     { path: '', component: Login, canActivate: [LoginGuard] },
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
         children: [
             { path: 'products', component: Products },
             { path: 'orders', component: Orders },
+            { path: 'metrics', component: Metrics },
             { path: '', redirectTo: 'products', pathMatch: 'full' }
         ],
     },
