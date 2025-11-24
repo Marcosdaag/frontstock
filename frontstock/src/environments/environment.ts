@@ -1,5 +1,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://stockapipublic.onrender.com/'
+  apiUrl: 'http://localhost:3000/'
 };

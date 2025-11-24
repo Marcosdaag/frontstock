@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { routing } from './app.routing';
 import { AppRoutingModule } from './app-routing-module';
@@ -30,7 +31,8 @@ import { Managment } from './components/managment/managment';
     routing,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgApexchartsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

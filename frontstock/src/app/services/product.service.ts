@@ -6,7 +6,9 @@ import { Global } from "./global.service"; // Fichero de configuracion global y 
 import { Product } from "../models/product.model";
 
 // Al usar el decorador puedo usar el servicio en otros ficheros sin necesidad de importar el modulo
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ProductService {
     public url: string;
 
