@@ -42,7 +42,7 @@ export class Products implements OnInit {
     if (cost >= 0) {
       // Cálculo: Costo + (Costo * Porcentaje / 100)
       const profit = cost * (profitMargin / 100);
-      this.newProduct.price = cost + profit;
+      this.newProduct.price = Math.round(cost + profit);
     } else {
       // Si por alguna razón es negativo (aunque HTML lo previene), lo reseteamos a 0
       this.newProduct.price = 0;
