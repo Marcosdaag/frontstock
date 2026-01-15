@@ -1,5 +1,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://stockapi-ucrv.onrender.com/'
+  apiUrl: 'https://stockapi-6ydl.onrender.com/'
 };
